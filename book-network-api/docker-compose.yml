@@ -4,10 +4,10 @@ services:
     container_name: mysql-bsn
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: book_social_network
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
@@ -20,8 +20,8 @@ services:
     container_name: mail-dev-bsn
     image: maildev/maildev
     ports:
-      - 1080:1080  # Web interface for MailDev
-      - 1025:1025  # SMTP server port for MailDev
+      - ${MAILDEV_UI_PORT}:1080
+      - ${MAILDEV_PORT}:1025
     networks:
       - spring-demo
     restart: unless-stopped
@@ -30,10 +30,10 @@ services:
     container_name: keycloak-bsn
     image: quay.io/keycloak/keycloak:24.0.2
     ports:
-      - 9090:8080
+      - ${KEYCLOAK_PORT}:8080
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
     networks:
       - spring-demo
     command:
